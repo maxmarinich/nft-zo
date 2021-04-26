@@ -1,12 +1,17 @@
-// require("@nomiclabs/hardhat-waffle");
-// 0x8b20F139cBbcceCB9cd40578ceB4C62217d62525 - infura
-// 0x3dFF3284007BF50e025bc7aeC170b4E832dC70de - alchemy
+const { alchemyContractAddress } = require('../secrets.json');
 
 async function main() {
   const Zo = await ethers.getContractFactory("ZoFactory")
-  const zo = await Zo.attach("0x3dFF3284007BF50e025bc7aeC170b4E832dC70de")
+  const zo = await Zo.attach(alchemyContractAddress)
 
-  console.log('Zo attach', zo);
+  await zo.setBaseURI('https://raw.githubusercontent.com/maxmarinich/nft-zo/gh-pages/zo/');
+
+  const value = await zo.baseTokenURI();
+  const id = await zo.createZombie();
+
+
+  console.log('Zo URI', value);
+  console.log('Zo ID', id);
 
 }
 
