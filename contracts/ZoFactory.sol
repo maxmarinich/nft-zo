@@ -13,11 +13,13 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
     string zoBaseTokenURI;
     string zoBaseContractURI;
+
     mapping (uint => address) public zombieToOwner;
     mapping (address => uint) ownerZombieCount;
 
     constructor() ERC721("NFTZo", "NZO") {
         console.log("Deploying the NFTZo...");
+        createZombie();
     }
 
     function createZombie() public onlyOwner returns (uint) {
