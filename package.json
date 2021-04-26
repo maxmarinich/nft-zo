@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "npx hardhat compile",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:static": "echo \"Error: no job specified\" && exit 0"
+    "build:static": "cp ./README.md ./static"
   },
   "keywords": [],
   "author": "",
