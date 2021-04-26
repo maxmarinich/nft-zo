@@ -1,18 +1,16 @@
 const { alchemyContractAddress } = require('../secrets.json');
 
 async function main() {
-  const Zo = await ethers.getContractFactory("ZoFactory")
-  const zo = await Zo.attach(alchemyContractAddress)
+  const NZO = await ethers.getContractFactory("ZoFactory")
+  const nzo = await NZO.attach(alchemyContractAddress)
 
-  await zo.setBaseURI('https://raw.githubusercontent.com/maxmarinich/nft-zo/gh-pages/zo/');
+  await nzo.setBaseURI('https://maxmarinich.github.io/nft-zo/zo/');
 
-  const value = await zo.baseTokenURI();
-  const id = await zo.createZombie();
+  const value = await nzo.baseTokenURI();
+  const id = await nzo.createZombie();
 
-
-  console.log('Zo URI', value);
-  console.log('Zo ID', id);
-
+  console.log('NZO URI:', value);
+  console.log('NZO ID:', id);
 }
 
 main()

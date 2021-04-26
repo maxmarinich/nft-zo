@@ -1,5 +1,4 @@
 require('@nomiclabs/hardhat-ethers');
-require("@nomiclabs/hardhat-web3");
 
 const { alchemyApiKey, infuraProjectId, mnemonic } = require('./secrets.json');
 

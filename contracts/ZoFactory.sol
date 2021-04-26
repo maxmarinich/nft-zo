@@ -27,7 +27,7 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
         uint newItemId = _tokenIds.current();
 
-        _mint(owner, newItemId);
+        _mint(owner(), newItemId);
         _setTokenURI(newItemId, zoBaseTokenURI);
 
         return newItemId;
