@@ -11,9 +11,8 @@ contract ZoFactory is Ownable, ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    string private tokenURI;
-    string private contractURI;
-
+    string zoBaseTokenURI;
+    string zoBaseContractURI;
     mapping (uint => address) public zombieToOwner;
     mapping (address => uint) ownerZombieCount;
 
@@ -26,25 +25,25 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
         uint newItemId = _tokenIds.current();
 
-        _mint(_owner, newItemId);
-        _setTokenURI(newItemId, tokenURI);
+        _mint(_msgSender(), newItemId);
+        _setTokenURI(newItemId, zoBaseTokenURI);
 
         return newItemId;
     }
 
-    function setBaseURI(string memory _tokenURI) {
-        tokenURI = _tokenURI;
+    function setBaseURI(string memory _tokenURI) private onlyOwner {
+        zoBaseTokenURI = _tokenURI;
     }
 
-    function setContractURI(string memory _contractURI) {
-        contractURI = _contractURI;
+    function setContractURI(string memory _contractURI) private onlyOwner {
+        zoBaseContractURI = _contractURI;
     }
 
-    function baseTokenURI() public pure returns (string) {
-        return tokenURI;
+    function baseTokenURI() public view returns (string memory) {
+        return zoBaseTokenURI;
     }
 
-    function contractURI() public pure returns (string) {
-        return contractURI;
+    function contractURI() public view returns (string memory) {
+        return zoBaseContractURI;
     }
 }
