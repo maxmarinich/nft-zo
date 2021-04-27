@@ -5,7 +5,7 @@
 npm ci
 ```
 ### setup
-- rename `secrets.test.json` to `secrets.json` and fill required fields
+- rename `secrets.dev.json` to `secrets.json` and fill required fields
 
 ### deploy
 ```
