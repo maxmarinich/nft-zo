@@ -1,6 +1,6 @@
 async function main() {
   const tokenUri = 'https://maxmarinich.github.io/nft-zo/zo/';
-  const contractUri = 'https://maxmarinich.github.io/nft-zo';
+  const contractUri = 'https://maxmarinich.github.io/nft-zo/contract';
   const [{ address, getBalance }] = await ethers.getSigners();
 
   console.log(
