@@ -19,7 +19,6 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
     constructor() ERC721("NFTZo", "NZO") {
         console.log("Deploying the NFTZo...");
-        createZombie();
     }
 
     function createZombie() public onlyOwner returns (uint) {
