@@ -19,6 +19,7 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
     constructor(string memory _tokenURI, string memory _contractURI) ERC721("NFTZo", "NZO") {
         console.log("Deploying the NFTZo...", _tokenURI, _contractURI);
+
         zoBaseTokenURI = _tokenURI;
         zoBaseContractURI = _contractURI;
     }
@@ -32,6 +33,10 @@ contract ZoFactory is Ownable, ERC721URIStorage {
         _setTokenURI(newItemId, zoBaseTokenURI);
 
         return newItemId;
+    }
+
+    function transferOwnership(address from, address to, uint256 tokenId) public {
+        _transfer(from, to, tokenId);
     }
 
     function setBaseURI(string memory _tokenURI) public onlyOwner {
