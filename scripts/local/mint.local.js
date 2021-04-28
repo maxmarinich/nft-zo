@@ -1,8 +1,8 @@
-const { alchemyContractAddress } = require('../secrets.json');
+const { localContractAddress } = require('../secrets.json');
 
 async function main() {
   const contractFactory = await ethers.getContractFactory('ZoFactory');
-  const contract = await contractFactory.attach(alchemyContractAddress);
+  const contract = await contractFactory.attach(localContractAddress);
 
   const baseURI = await contract.baseTokenURI();
   const contractURI = await contract.contractURI();
@@ -10,7 +10,7 @@ async function main() {
 
   console.log('NZO baseURI:', baseURI);
   console.log('NZO contractURI:', contractURI);
-  console.log('NZO zombie:', zombie);
+  console.log('NZO zombieID:', zombie);
 }
 
 main()

@@ -6,11 +6,11 @@ async function main() {
   console.log(`Deploying contract with the account: ${deployer.address}.`);
   console.log(`Account balance: ${(await deployer.getBalance()).toString()}.`);
 
-  const NZO = await ethers.getContractFactory('ZoFactory');
-  const nzo = await NZO.deploy(tokenUri, contractUri);
+  const contractFactory = await ethers.getContractFactory('ZoFactory');
+  const contract = await contractFactory.deploy(tokenUri, contractUri);
 
-  await nzo.deployed();
-  console.log('NZO deployed to:', nzo.address);
+  await contract.deployed();
+  console.log('Deployed to:', contract.address);
 }
 
 main()

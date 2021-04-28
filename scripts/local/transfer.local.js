@@ -1,15 +1,13 @@
-const { ownerAddress, alchemyContractAddress } = require('../secrets.json');
+const { localOwnerAddress } = require('../secrets.json');
 
 async function main() {
-  const owner = ownerAddress;
-  const newOwner = '0xA696906271b10DA4D6ABf13828Ee787d597b2566';
-  // const newOwner = '0xa190a41edA88931A92468065903C8FA908611892';
   const tokenId = 1;
+  const newOwner = '0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f';
 
   const contractFactory = await ethers.getContractFactory('ZoFactory');
   const contract = await contractFactory.attach(alchemyContractAddress);
 
-  const data = await contract.transferFrom(owner, newOwner, tokenId);
+  const data = await contract.transferFrom(localOwnerAddress, newOwner, tokenId);
   console.log('NZO transfer success:', data);
 }
 
