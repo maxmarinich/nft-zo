@@ -6,7 +6,7 @@ async function main() {
 
   const baseURI = await contract.baseTokenURI();
   const contractURI = await contract.contractURI();
-  const zombie = await contract.createZombie();
+  const zombie = await contract._createZombie('Tony', 'ZOP', 'LOLOLOLO', 'POL', 'SUB-1');
 
   console.log('NZO baseURI:', baseURI);
   console.log('NZO contractURI:', contractURI);
