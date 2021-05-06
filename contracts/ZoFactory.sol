@@ -14,10 +14,20 @@ contract ZoFactory is Ownable, ERC721URIStorage {
     string private _baseTokenURI;
     string private _baseContractURI;
 
-    mapping (uint256 => address) public zombieToOwner;
-    mapping (address => uint256) public ownerZombieCount;
+    struct Zombie {
+        uint256 id;
+        string name;
+        string rank;
+        string category;
+        string subcategory;
+        string born;
+    }
 
-    constructor(string memory _tokenURI, string memory _contractURI) ERC721("NFTZombie", "NZMB") {
+    Zombie[] private zombies;
+
+    mapping (uint256 => Zombie) public tokenToZombie;
+
+    constructor(string memory _tokenURI, string memory _contractURI) ERC721("NFTZombies", "ZNFT") {
         console.log("Deploying the NFTZombie ...", _tokenURI, _contractURI);
 
         _baseTokenURI = _tokenURI;
@@ -28,15 +38,37 @@ contract ZoFactory is Ownable, ERC721URIStorage {
         return _baseTokenURI;
     }
 
-    function createZombie() public onlyOwner returns (uint256) {
+    function _createZombie(
+        string memory name,
+        string memory rank,
+        string memory category,
+        string memory subcategory,
+        string memory born
+    ) public onlyOwner returns (Zombie memory) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
+        Zombie memory newZombie = Zombie(newItemId, name, rank, category, subcategory, born);
+
+        zombies.push(newZombie);
+        tokenToZombie[newItemId - 1] = newZombie;
 
         _mint(owner(), newItemId);
         _setTokenURI(newItemId, newItemId.toString());
 
-        return newItemId;
+        return newZombie;
+    }
+
+    function getTokenData(uint256 _tokenId) public view returns (Zombie memory) {
+        require(_exists(_tokenId), "ERC721URIStorage: URI query for nonexistent token");
+
+        Zombie memory zombie = tokenToZombie[_tokenId - 1];
+
+        return zombie;
+    }
+
+    function destroyToken(uint256 _tokenId) public {
+        _burn(_tokenId);
     }
 
     function baseTokenURI() public view returns (string memory) {
