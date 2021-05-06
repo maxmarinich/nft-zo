@@ -32,6 +32,17 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
         _baseTokenURI = _tokenURI;
         _baseContractURI = _contractURI;
+
+        _createZombie('Tony 1', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 2', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 3', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 4', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 5', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 6', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 7', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 8', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 9', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+        _createZombie('Tony 10', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
