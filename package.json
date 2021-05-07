@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:static": "cp ./README.md ./static",
     "start": "npx hardhat node",
-    "local:deploy": "npx hardhat run scripts/deploy.js.js --network localhost",
+    "local:deploy": "npx hardhat run scripts/deploy.js --network localhost",
     "local:mint": "npx hardhat run scripts/local/mint.local.js --network localhost",
     "local:transfer": "npx hardhat run scripts/local/transfer.local.js --network localhost"
   },

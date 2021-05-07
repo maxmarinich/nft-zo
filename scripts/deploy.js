@@ -1,5 +1,5 @@
 async function main() {
-  const tokenUri = 'https://maxmarinich.github.io/nft-zo/zo-single/';
+  const tokenUri = 'https://maxmarinich.github.io/nft-zo/zo-multiple/';
   const contractUri = `${tokenUri}contract`;
   const [deployer] = await ethers.getSigners();
 
@@ -7,7 +7,7 @@ async function main() {
   console.log(`Account balance: ${(await deployer.getBalance()).toString()}.`);
 
   const contractFactory = await ethers.getContractFactory('ZoFactory');
-  const contract = await contractFactory.deploy(tokenUri, contractUri);
+  const contract = await contractFactory.deploy(tokenUri, contractUri, 420);
 
   await contract.deployed();
   console.log('Deployed to:', contract.address);

@@ -13,6 +13,7 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
     string private _baseTokenURI;
     string private _baseContractURI;
+    uint256 private _totalSupplyLimit;
 
     struct Zombie {
         uint256 id;
@@ -27,35 +28,31 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
     mapping (uint256 => Zombie) public tokenToZombie;
 
-    constructor(string memory _tokenURI, string memory _contractURI) ERC721("NFTZombies", "ZNFT") {
-        console.log("Deploying the NFTZombie ...", _tokenURI, _contractURI);
+    constructor(string memory _tokenURI, string memory _contractURI, uint256 _supplyLimit) ERC721("NFTZomb", "ZOMB") {
+        console.log("ZoFactory: Deploying the NFTZombie ...", _tokenURI, _contractURI, _supplyLimit);
 
         _baseTokenURI = _tokenURI;
         _baseContractURI = _contractURI;
+        _totalSupplyLimit = _supplyLimit;
+    }
 
-        _createZombie('Tony 1', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 2', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 3', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 4', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 5', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 6', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 7', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 8', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 9', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
-        _createZombie('Tony 10', 'ZOP 2', 'LOLOLOLO 2', 'POL 2', 'SUB-1 2');
+    function getAllZombies() public view returns (Zombie[] memory) {
+        return zombies;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
         return _baseTokenURI;
     }
 
-    function _createZombie(
+    function createZombie(
         string memory name,
         string memory rank,
         string memory category,
         string memory subcategory,
         string memory born
     ) public onlyOwner returns (Zombie memory) {
+        require(totalSupply() < _totalSupplyLimit, "ZoFactory: total supply limit reached.");
+
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -70,8 +67,17 @@ contract ZoFactory is Ownable, ERC721URIStorage {
         return newZombie;
     }
 
+    function totalSupply() public view returns (uint256) {
+        return zombies.length;
+    }
+
+    function totalSupplyLimit() public view returns (uint256) {
+        return _totalSupplyLimit;
+    }
+
+
     function getTokenData(uint256 _tokenId) public view returns (Zombie memory) {
-        require(_exists(_tokenId), "ERC721URIStorage: URI query for nonexistent token");
+        require(_exists(_tokenId), "ZoFactory: URI query for nonexistent token");
 
         Zombie memory zombie = tokenToZombie[_tokenId - 1];
 
