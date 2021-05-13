@@ -4,9 +4,10 @@ async function main() {
   const contractFactory = await ethers.getContractFactory('ZoFactory');
   const contract = await contractFactory.attach(alchemyContractAddress);
 
+  const burnFee = 1; // value in ether
   const baseURI = await contract.baseTokenURI();
   const contractURI = await contract.contractURI();
-  const zombie = await contract._createZombie('Tony', 'ZOP', 'LOLOLOLO', 'POL', 'SUB-1');
+  const zombie = await contract.createZombie('T-1', 'R-1', 'C-1', 'S-1', burnFee);
 
   console.log('NZO baseURI:', baseURI);
   console.log('NZO contractURI:', contractURI);
