@@ -1,6 +1,6 @@
 {
-  "description": "Single NFT Zombie funny game.",
+  "description": "NFT Zombie funny game.",
   "external_link": "https://maxmarinich.github.io/nft-zo/contract",
-  "image": "https://maxmarinich.github.io/nft-zo/img/zo.png",
-  "name": "nft_zo"
+  "image": "https://maxmarinich.github.io/nft-zo/contract/contract.png",
+  "name": "nft_zo_contract"
 }

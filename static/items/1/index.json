@@ -1,8 +1,8 @@
 {
-  "name": "Zo zo-multi 1",
+  "name": "Zo 1",
   "description": "Uniq zombie league",
-  "image": "https://maxmarinich.github.io/nft-zo/zo-multi/img/1.png",
-  "external_url": "https://maxmarinich.github.io/nft-zo/zo-multi/1",
+  "image": "https://maxmarinich.github.io/nft-zo/items/1/1.npg",
+  "external_url": "https://maxmarinich.github.io/nft-zo/items/1",
   "attributes": [
     {
       "display_type": "date",
