@@ -3,7 +3,7 @@
   "description": "Uniq zombie league 1",
   "image": "https://maxmarinich.github.io/nft-zo/items/1/1.png",
   "external_url": "https://maxmarinich.github.io/nft-zo/items/1",
-  "burningFee": 0,
+  "burning_fee": 1,
   "attributes": [
     {
       "display_type": "date",
