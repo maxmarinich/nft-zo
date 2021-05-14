@@ -224,15 +224,12 @@ contract ZoFactory is Ownable, ERC721 {
     string private _baseTokenURI;
     string private _baseContractURI;
     uint256 private _totalSupplyLimit;
-    uint256 _burnTokenFee = 1 ether;
+    uint256 _baseBurningFee = 1 ether;
 
     struct Zombie {
         uint256 id;
         string name;
-        string rank;
-        string category;
-        string subcategory;
-        uint256 burnFee;
+        uint256 burningFee;
     }
 
     Zombie[] private zombies;
@@ -272,24 +269,21 @@ contract ZoFactory is Ownable, ERC721 {
 
     function createZombie(
         string memory name,
-        string memory rank,
-        string memory category,
-        string memory subcategory,
-        uint256 burnFee
+        uint256 burningFee
     ) public onlyOwner returns (Zombie memory) {
         require(totalSupply() < _totalSupplyLimit, "ZoFactory: total supply limit reached.");
 
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
-        Zombie memory newZombie = Zombie(newItemId, name, rank, category, subcategory, burnFee);
+        Zombie memory newZombie = Zombie(newItemId, name, burningFee);
 
         zombies.push(newZombie);
         tokenToZombie[newItemId] = newZombie;
-        tokenToBurnFee[newItemId] = burnFee * _burnTokenFee;
+        tokenToBurnFee[newItemId] = burningFee * _baseBurningFee;
 
         _mint(owner(), newItemId);
-        setTokenURI(newItemId, toString(newItemId));
+        _setTokenURI(newItemId, toString(newItemId));
 
         return newZombie;
     }
@@ -302,11 +296,7 @@ contract ZoFactory is Ownable, ERC721 {
         _baseContractURI = uri;
     }
 
-    function setTokenURI(uint256 tokenId, string memory uri) public onlyOwner {
-        _setTokenURI(tokenId, uri);
-    }
-
-    function getTokenData(uint256 _tokenId) public view returns (Zombie memory) {
+    function tokenData(uint256 _tokenId) public view returns (Zombie memory) {
         require(_exists(_tokenId), "ZoFactory: URI query for nonexistent token");
         Zombie memory data = tokenToZombie[_tokenId];
 

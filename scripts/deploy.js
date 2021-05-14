@@ -1,9 +1,6 @@
-async function main() {
-  const baseUrl = 'https://maxmarinich.github.io/nft-zo'
-  const baseTokenUri = `${baseUrl}/items/`;
-  const baseContractUri = `${baseUrl}/contract`;
-  const totalSupplyLimit = 3;
+const { baseTokenUri, baseContractUri, totalSupplyLimit } = require('../base.config');
 
+async function main() {
   const [deployer] = await ethers.getSigners();
 
   console.log(`Deploying contract with the account: ${deployer.address}.`);

@@ -32,7 +32,7 @@ contract Zombies {
     }
 
     function checkGetTokenData() public {
-        ZoFactory.Zombie memory zombie = factory.getTokenData(1);
+        ZoFactory.Zombie memory zombie = factory.tokenData(1);
 
         Assert.equal(zombie.id, 1, ": zombie ID should be 1");
         Assert.equal(zombie.name, "Z-1", ": zombie NAME should be Z-1");
