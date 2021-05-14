@@ -9,7 +9,7 @@ async function main() {
   const { id, name, burning_fee = 0 } = await fetchMetadata(totalSupply + 1);
 
   await contract.createZombie(name, burning_fee);
-  console.log(`Create token -> id: ${id}, name: ${name}, burning fee: ${burning_fee}`);
+  console.log(`Create new token --> id: ${id}, name: ${name}, burning fee: ${burning_fee}`);
 }
 
 main()
