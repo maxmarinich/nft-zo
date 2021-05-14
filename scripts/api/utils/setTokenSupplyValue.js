@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { storagePathname } = require('../constants');
 
-module.exports = function setSupplyValue(value = '') {
+module.exports = function setTokenSupplyValue(value = '') {
   fs.writeFileSync(storagePathname, String(value));
 };

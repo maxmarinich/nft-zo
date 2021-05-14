@@ -2,14 +2,14 @@ const fetchMetadata = require('../scripts/api/methods/fetchMetadata');
 const { alchemyContractAddress } = require('../secrets.json');
 
 async function main() {
-  const burningFee = 0;
-  const { name } = await fetchMetadata();
   const contractFactory = await ethers.getContractFactory('ZoFactory');
   const contract = await contractFactory.attach(alchemyContractAddress);
 
-  const tokenID = await contract.createZombie(...metadata);
+  const totalSupply = (await contract.totalSupply()).toNumber();
+  const { id, name, burning_fee = 0 } = await fetchMetadata(totalSupply + 1);
 
-  console.log('NZO destroyed:', tokenID);
+  await contract.createZombie(name, burning_fee);
+  console.log(`Create token -> id: ${id}, name: ${name}, burning fee: ${burning_fee}`);
 }
 
 main()
@@ -18,3 +18,4 @@ main()
     console.error(error);
     process.exit(1);
   });
+

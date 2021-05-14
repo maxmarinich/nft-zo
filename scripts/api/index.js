@@ -1,8 +1,7 @@
 const fetchMetadata = require('./methods/fetchMetadata');
-const setSupplyValue = require('./utils/setSupplyValue');
 
 async function run() {
-  const data = await fetchMetadata();
+  const data = await fetchMetadata(1);
 
   console.log(data);
 }

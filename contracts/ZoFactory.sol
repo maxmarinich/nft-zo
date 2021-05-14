@@ -312,4 +312,16 @@ contract ZoFactory is Ownable, ERC721 {
         _burn(_tokenId);
         return _tokenId;
     }
+
+    function getBalance() public returns (uint256) {
+        return this.balance;
+    }
+
+    function withdraw(uint256 value) public onlyOwner {
+        if (bytes(value).length > 0 && this.balance >= value) {
+            owner.transfer(value * _baseBurningFee);
+        } else {
+            owner.transfer(this.balance);
+        }
+    }
 }
