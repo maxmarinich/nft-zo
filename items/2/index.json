@@ -1,9 +1,9 @@
 {
+  "id": 2,
   "name": "Zo 2",
   "description": "Uniq zombie league 2",
   "image": "https://maxmarinich.github.io/nft-zo/items/2/2.png",
   "external_url": "https://maxmarinich.github.io/nft-zo/items/2",
-  "burning_fee": 1,
   "attributes": [
     {
       "display_type": "date",
