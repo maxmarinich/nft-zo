@@ -1,8 +1,10 @@
 {
+  "id": 5,
   "name": "Zo 5",
   "description": "Uniq zombie league 5",
   "image": "https://maxmarinich.github.io/nft-zo/items/5/5.png",
   "external_url": "https://maxmarinich.github.io/nft-zo/items/5",
+  "burning_fee": 5,
   "attributes": [
     {
       "display_type": "date",
