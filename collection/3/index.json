@@ -1,0 +1,36 @@
+{
+  "id": 3,
+  "name": "Zo 3",
+  "description": "Uniq zombie league 3",
+  "image": "https://maxmarinich.github.io/nft-zo/items/3/3.png",
+  "external_url": "https://maxmarinich.github.io/nft-zo/items/3",
+  "burning_fee": 3,
+  "attributes": [
+    {
+      "display_type": "date",
+      "trait_type": "birthday",
+      "value": -2546599800
+    },
+    {
+      "display_type": "date",
+      "trait_type": "death",
+      "value": -778600800
+    },
+    {
+      "trait_type": "Rank",
+      "value": "Evil"
+    },
+    {
+      "trait_type": "Category",
+      "value": "Politician"
+    },
+    {
+      "trait_type": "Subcategory",
+      "value": "Dictator"
+    },
+    {
+      "trait_type": "Status",
+      "value": "Not specified"
+    }
+  ]
+}
