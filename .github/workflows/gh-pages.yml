@@ -28,11 +28,11 @@ jobs:
       - name: Install and Build
         run: |
           npm ci --ignore-scripts
-          npm run build:static
+          npm run build
       - name: Deploy
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: max.marinich@gmail.com
-          build_dir: static
+          build_dir: dist

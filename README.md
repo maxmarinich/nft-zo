@@ -27,3 +27,9 @@ npm run compile
 npm run deploy
 npm run mint
 ```
+
+### Development / Run client dev server
+
+```
+npm run serve
+```
