@@ -2,8 +2,8 @@
   "id": 8,
   "name": "Zo 8",
   "description": "Uniq zombie league 8",
-  "image": "https://maxmarinich.github.io/nft-zo/items/8/8.png",
-  "external_url": "https://maxmarinich.github.io/nft-zo/items/8",
+  "image": "https://maxmarinich.github.io/nft-zo/api/items/8/8.png",
+  "external_url": "https://maxmarinich.github.io/nft-zo/api/items/8",
   "burning_fee": 8,
   "attributes": [
     {

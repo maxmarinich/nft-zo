@@ -2,8 +2,8 @@
   "id": 10,
   "name": "Zo 10",
   "description": "Uniq zombie league 10",
-  "image": "https://maxmarinich.github.io/nft-zo/items/10/10.png",
-  "external_url": "https://maxmarinich.github.io/nft-zo/items/10",
+  "image": "https://maxmarinich.github.io/nft-zo/api/items/10/10.png",
+  "external_url": "https://maxmarinich.github.io/nft-zo/api/items/10",
   "attributes": [
     {
       "trait_type": "Rank",

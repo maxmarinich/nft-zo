@@ -2,8 +2,8 @@
   "id": 7,
   "name": "Zo 7",
   "description": "Uniq zombie league 7",
-  "image": "https://maxmarinich.github.io/nft-zo/items/7/7.png",
-  "external_url": "https://maxmarinich.github.io/nft-zo/items/7",
+  "image": "https://maxmarinich.github.io/nft-zo/api/items/7/7.png",
+  "external_url": "https://maxmarinich.github.io/nft-zo/api/items/7",
   "burning_fee": 1,
   "attributes": [
     {
