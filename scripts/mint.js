@@ -7,10 +7,8 @@ async function main() {
 
   const totalSupply = (await contract.totalSupply()).toNumber();
   const { id, name, burning_fee = 0 } = await fetchMetadata(totalSupply + 1);
-  const data = await fetchMetadata(totalSupply + 1);
 
-  // await contract.createZombie(name, burning_fee);
-  console.log(`Create new token:`, data);
+  await contract.createZombie(name, burning_fee);
   console.log(`Create new token --> id: ${id}, name: ${name}, burning fee: ${burning_fee}`);
 }
 
