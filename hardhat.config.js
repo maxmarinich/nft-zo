@@ -1,6 +1,7 @@
 require('@nomiclabs/hardhat-ethers');
+require("@nomiclabs/hardhat-etherscan");
 
-const { alchemyApiKey, infuraProjectId, mnemonic } = require('./secrets.json');
+const { alchemyApiKey, mnemonic, etherscanApiKey } = require('./secrets.json');
 
 module.exports = {
   solidity: '0.8.0',
@@ -8,10 +9,9 @@ module.exports = {
     rinkeby: {
       url: `https://eth-rinkeby.alchemyapi.io/v2/${alchemyApiKey}`,
       accounts: { mnemonic: mnemonic },
-    },
-    rinkebyInfura: {
-      url: `https://rinkeby.infura.io/v3/${infuraProjectId}`,
-      accounts: { mnemonic: mnemonic },
-    },
+    }
   },
+  etherscan: {
+    apiKey: etherscanApiKey
+  }
 };

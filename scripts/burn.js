@@ -5,7 +5,7 @@ async function main() {
   const contract = await contractFactory.attach(alchemyContractAddress);
   const tokenID = (await contract.totalSupply()).toNumber();
 
-  const destroyedToken = await contract.destroyToken(6);
+  const destroyedToken = await contract.destroyToken(tokenID);
   console.log('NZO destroyedToken:', destroyedToken);
   console.log('NZO destroyedToken: 1', destroyedToken.toString());
 }
