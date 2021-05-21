@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx hardhat compile",
+    "clean:all": "rm -rf artifacts cache dist node_modules package-lock.json",
     "deploy": "rm -rf artifacts cache; npx hardhat run scripts/deploy.js --network rinkeby",
     "mint": "npx hardhat run scripts/mint.js --network rinkeby",
     "burn": "npx hardhat run scripts/burn.js --network rinkeby",
