@@ -1,0 +1,40 @@
+{
+  "id": 4,
+  "name": "Zo 4",
+  "description": "Uniq zombie league 4",
+  "image": "https://maxmarinich.github.io/nft-zo/api/items/4/4.png",
+  "external_url": "https://maxmarinich.github.io/nft-zo/api/items/4",
+  "burning_fee": 1,
+  "attributes": [
+    {
+      "trait_type": "Rank",
+      "value": "Evil"
+    },
+    {
+      "trait_type": "Category",
+      "value": "Politician"
+    },
+    {
+      "trait_type": "Subcategory",
+      "value": "Dictator"
+    },
+    {
+      "trait_type": "Features",
+      "value": 6
+    },
+    {
+      "trait_type": "Coffin Status",
+      "value": "Undefined"
+    },
+    {
+      "display_type": "date",
+      "trait_type": "born",
+      "value": 0
+    },
+    {
+      "display_type": "date",
+      "trait_type": "died",
+      "value": 0
+    }
+  ]
+}

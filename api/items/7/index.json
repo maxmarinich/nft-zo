@@ -1,0 +1,40 @@
+{
+  "id": 7,
+  "name": "Zo 7",
+  "description": "Uniq zombie league 7",
+  "image": "https://maxmarinich.github.io/nft-zo/api/items/7/7.png",
+  "external_url": "https://maxmarinich.github.io/nft-zo/api/items/7",
+  "burning_fee": 1,
+  "attributes": [
+    {
+      "trait_type": "Rank",
+      "value": "Evil"
+    },
+    {
+      "trait_type": "Category",
+      "value": "Politician"
+    },
+    {
+      "trait_type": "Subcategory",
+      "value": "Dictator"
+    },
+    {
+      "trait_type": "Features",
+      "value": 6
+    },
+    {
+      "trait_type": "Coffin Status",
+      "value": "Undefined"
+    },
+    {
+      "display_type": "date",
+      "trait_type": "Born",
+      "value": 0
+    },
+    {
+      "display_type": "date",
+      "trait_type": "Died",
+      "value": 0
+    }
+  ]
+}
