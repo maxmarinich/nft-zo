@@ -12,7 +12,7 @@
     "transfer": "npx hardhat run scripts/transter.js --network rinkeby",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx hardhat node",
-    "verify": "npx hardhat verify --network rinkeby DEPLOYED_CONTRACT_ADDRESS \"Constructor argument 1\"",
+    "verify": "node scripts/verify.js",
     "local:deploy": "npx hardhat run scripts/deploy.js --network localhost",
     "local:mint": "npx hardhat run scripts/local/mint.local.js --network localhost",
     "local:transfer": "npx hardhat run scripts/local/transfer.local.js --network localhost",
