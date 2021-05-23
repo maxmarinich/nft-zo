@@ -86,7 +86,7 @@ contract ZoFactory is Ownable, ERC721URIStorage {
         _baseTokenURI = uri;
     }
 
-    function setbaseContractURI(string memory uri) public onlyOwner {
+    function setBaseContractURI(string memory uri) public onlyOwner {
         _baseContractURI = uri;
     }
 
