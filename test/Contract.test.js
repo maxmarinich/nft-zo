@@ -191,4 +191,14 @@ describe('Token contract', function () {
             )
         })
     })
+
+    describe('Withdraw', function () {
+        it('Should withdraw all balance to contract owner ', async function () {
+            expect(await hardhatToken.contractBalance()).to.equal(1)
+        })
+
+        it('Should throw error if not owner call method', async function () {
+            expect(await hardhatToken.contractBalance()).to.equal(1)
+        })
+    })
 })
