@@ -4,7 +4,7 @@ const {
 } = require('../secrets.json')
 
 async function main() {
-    const contractFactory = await ethers.getContractFactory('ZoFactory')
+    const contractFactory = await ethers.getContractFactory('Contract')
     const contract = await contractFactory.attach(alchemyContractAddress)
 
     const tokenId = (await contract.totalSupply()).toNumber()

@@ -1,11 +1,11 @@
 const { alchemyContractAddress } = require('../secrets.json');
 
 async function main() {
-  const contractFactory = await ethers.getContractFactory('ZoFactory');
+  const contractFactory = await ethers.getContractFactory('Contract');
   const contract = await contractFactory.attach(alchemyContractAddress);
   const tokenID = (await contract.totalSupply()).toNumber();
 
-  const destroyedToken = await contract.destroyToken(tokenID);
+  const destroyedToken = await contract.burnToken(tokenID);
   console.log('NZO destroyedToken:', destroyedToken);
   console.log('NZO destroyedToken: 1', destroyedToken.toString());
 }

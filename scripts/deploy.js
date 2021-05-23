@@ -6,7 +6,7 @@ async function main() {
   console.log(`Deploying contract with the account: ${deployer.address}.`);
   console.log(`Account balance: ${(await deployer.getBalance()).toString()}.`);
 
-  const contractFactory = await ethers.getContractFactory('ZoFactory');
+  const contractFactory = await ethers.getContractFactory('Contract');
   const contract = await contractFactory.deploy(baseTokenUri, baseContractUri, totalSupplyLimit);
 
   await contract.deployed();
