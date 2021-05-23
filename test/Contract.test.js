@@ -6,6 +6,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 describe('Token contract', function () {
+    let provider = ethers.getDefaultProvider();
     let totalSupplyLimit = 5
     let tokenURI = 'http://localhost/'
     let contractURI = 'http://localhost/contract'
@@ -59,8 +60,6 @@ describe('Token contract', function () {
         it('Should get token URI', async function () {
             await hardhatToken.createToken('John', 5)
 
-            console.log('__TL:', await hardhatToken.tokenURI(1))
-
             expect(await hardhatToken.tokenURI(1)).to.equal(`${tokenURI}1`)
         })
 
@@ -88,117 +87,152 @@ describe('Token contract', function () {
     })
 
     describe('Transactions', function () {
-        it('Should create new token from owner account', async function () {
-            await hardhatToken.createToken('John', 5)
-            await hardhatToken.createToken('Sam', 5)
-            await hardhatToken.createToken('Mike', 5)
+        describe('Create', function () {
+            it('Should create new token from owner account', async function () {
+                await hardhatToken.createToken('John', 5)
+                await hardhatToken.createToken('Sam', 5)
+                await hardhatToken.createToken('Mike', 5)
 
-            const ownerBalance = await hardhatToken.balanceOf(owner.address)
+                const ownerBalance = await hardhatToken.balanceOf(owner.address)
 
-            expect(ownerBalance).to.equal(3)
-            expect(await hardhatToken.totalSupply()).to.equal(3)
+                expect(ownerBalance).to.equal(3)
+                expect(await hardhatToken.totalSupply()).to.equal(3)
+            })
+
+            it('Should fail if zombie quantity reached supply limit', async function () {
+                expect(await hardhatToken.totalSupplyLimit()).to.equal(5)
+                expect(await hardhatToken.totalSupply()).to.equal(0)
+
+                await hardhatToken.createToken('John', 5)
+                await hardhatToken.createToken('Sam', 5)
+                await hardhatToken.createToken('Mike', 5)
+                await hardhatToken.createToken('Shawn', 5)
+                await hardhatToken.createToken('Adam', 5)
+
+                expect(await hardhatToken.totalSupply()).to.equal(5)
+
+                await expect(hardhatToken.createToken('Ron', 5)).to.be.revertedWith(
+                    'VM Exception while processing transaction: revert Total supply limit reached'
+                )
+            })
+
+            it('Should fail if not an owner tries to create token', async function () {
+                await expect(
+                    hardhatToken.connect(addr1).createToken('John', 5)
+                ).to.be.rejectedWith(
+                    'VM Exception while processing transaction: revert Ownable: caller is not the owner'
+                )
+            })
         })
 
-        it('Should fail if zombie quantity reached supply limit', async function () {
-            expect(await hardhatToken.totalSupplyLimit()).to.equal(5)
-            expect(await hardhatToken.totalSupply()).to.equal(0)
+        describe('Transfer', function () {
+            it('Should transfer tokens between accounts', async function () {
+                await hardhatToken.createToken('John', 5)
+                const initialAddr1Balance = await hardhatToken.balanceOf(
+                    addr1.address
+                )
+                expect(initialAddr1Balance).to.equal(0)
 
-            await hardhatToken.createToken('John', 5)
-            await hardhatToken.createToken('Sam', 5)
-            await hardhatToken.createToken('Mike', 5)
-            await hardhatToken.createToken('Shawn', 5)
-            await hardhatToken.createToken('Adam', 5)
+                await hardhatToken.transferToken(addr1.address, 1)
 
-            expect(await hardhatToken.totalSupply()).to.equal(5)
+                const newOwnerBalance = await hardhatToken.balanceOf(owner.address)
+                const newAddr1Balance = await hardhatToken.balanceOf(addr1.address)
+                expect(newOwnerBalance).to.equal(0)
+                expect(newAddr1Balance).to.equal(1)
+            })
 
-            await expect(hardhatToken.createToken('Ron', 5)).to.be.revertedWith(
-                'VM Exception while processing transaction: revert Total supply limit reached'
-            )
+            it('Should fail if not an owner tries to transfer token', async function () {
+                await hardhatToken.createToken('John', 5)
+                await hardhatToken.transferToken(addr1.address, 1)
+
+                const ownerBalance = await hardhatToken.balanceOf(owner.address)
+                expect(ownerBalance).to.equal(0)
+
+                await expect(
+                    hardhatToken.transferToken(owner.address, 1)
+                ).to.be.revertedWith(
+                    'VM Exception while processing transaction: revert ERC721: transfer of token that is not own'
+                )
+            })
         })
 
-        it('Should fail if not an owner tries to create token', async function () {
-            await expect(
-                hardhatToken.connect(addr1).createToken('John', 5)
-            ).to.be.rejectedWith(
-                'VM Exception while processing transaction: revert Ownable: caller is not the owner'
-            )
+        describe('Withdraw', function () {
+            it('Should withdraw all balance to contract owner ', async function () {
+                const burnFee = ethers.utils.parseEther('1.0')
+                await hardhatToken.createToken('John', 1)
+                await hardhatToken.burnToken(1, { value: burnFee })
+                expect(await hardhatToken.contractBalance()).to.equal(burnFee)
+
+                const halfBalance = ethers.utils.parseEther('0.5')
+                await hardhatToken.withdraw(halfBalance)
+
+                expect(await hardhatToken.contractBalance()).to.equal(halfBalance)
+
+                // fails
+                expect(await provider.getBalance(owner.address)).to.equal(halfBalance)
+
+                await hardhatToken.withdraw(burnFee)
+                expect(await hardhatToken.contractBalance()).to.equal(0)
+
+                // fails
+                expect(await provider.getBalance(owner.address)).to.equal(burnFee)
+
+
+            })
+
+            it('Should throw error if not owner calls method', async function () {
+                await expect(hardhatToken.connect(addr1).withdraw(0)).to.be.revertedWith(
+                    'VM Exception while processing transaction: revert Ownable: caller is not the owner'
+                )
+            })
         })
 
-        it('Should transfer tokens between accounts', async function () {
-            await hardhatToken.createToken('John', 5)
-            const initialAddr1Balance = await hardhatToken.balanceOf(
-                addr1.address
-            )
-            expect(initialAddr1Balance).to.equal(0)
+        describe('Burn', function () {
+            it('Should burn token', async function () {
+                const burnFee = ethers.utils.parseEther('1.0')
+                await hardhatToken.createToken('John', 1)
+                expect(await hardhatToken.ownerOf(1)).to.equal(owner.address)
+                await hardhatToken.burnToken(1, { value: burnFee })
+                expect(await hardhatToken.contractBalance()).to.equal(burnFee)
+            })
 
-            await hardhatToken.transferToken(addr1.address, 1)
+            it('Should throw error if value is not enough for burning', async function () {
+                const burnFee = ethers.utils.parseEther('0.5');
+                await hardhatToken.createToken('John', 1)
+                expect(await hardhatToken.ownerOf(1)).to.equal(owner.address)
 
-            const newOwnerBalance = await hardhatToken.balanceOf(owner.address)
-            const newAddr1Balance = await hardhatToken.balanceOf(addr1.address)
-            expect(newOwnerBalance).to.equal(0)
-            expect(newAddr1Balance).to.equal(1)
-        })
+                await expect(hardhatToken.burnToken(1, { value: burnFee })).to.be.revertedWith(
+                    'VM Exception while processing transaction: revert Burn`s fee not allowed'
+                )
+            })
 
-        it('Should fail if not an owner tries to transfer token', async function () {
-            await hardhatToken.createToken('John', 5)
-            await hardhatToken.transferToken(addr1.address, 1)
+            it('Should throw error if no value was passed ', async function () {
+                await hardhatToken.createToken('John', 1)
+                expect(await hardhatToken.ownerOf(1)).to.equal(owner.address)
 
-            const ownerBalance = await hardhatToken.balanceOf(owner.address)
-            expect(ownerBalance).to.equal(0)
+                await expect(hardhatToken.burnToken(1)).to.be.revertedWith(
+                    'VM Exception while processing transaction: revert Burn`s fee not allowed'
+                )
+            })
 
-            await expect(
-                hardhatToken.transferToken(owner.address, 1)
-            ).to.be.revertedWith(
-                'VM Exception while processing transaction: revert ERC721: transfer of token that is not own'
-            )
-        })
-    })
+            it('Should throw error if not owner calls method', async function () {
+                const burnFee = ethers.utils.parseEther('1.0')
+                await hardhatToken.createToken('John', 1)
+                expect(await hardhatToken.ownerOf(1)).to.equal(owner.address)
+                await hardhatToken.transferToken(addr2.address, 1)
+                expect(await hardhatToken.ownerOf(1)).to.equal(addr2.address)
 
-    describe('Burn', function () {
-        // To convert Ether to Wei:
-        const value = ethers.utils.parseEther('1.0') // ether in this case MUST be a string
-        // Or you can use Wei directly if you have that:
-        // value: someBigNumber
-        // value: 1234   // Note that using JavaScript numbers requires they are less than Number.MAX_SAFE_INTEGER
-        // value: "1234567890"
-        // value: "0x1234"
 
-        // Or, promises are also supported:
-        // value: provider.getBalance(addr)
+                // fails
+                await expect(hardhatToken.burnToken(1, { value: burnFee })).to.be.revertedWith(
+                    'VM Exception while processing transaction: revert Ownable: caller is not the owner'
+                )
 
-        it('Should burn token', async function () {
-            await hardhatToken.createToken('John', 1)
-            expect(await hardhatToken.ownerOf(1)).to.equal(owner.address)
-            await hardhatToken.burnToken(1, { value })
-            expect(await hardhatToken.contractBalance()).to.equal(value)
-        })
-
-        it('Should throw error if not value', async function () {
-            await hardhatToken.createToken('John', 1)
-            expect(await hardhatToken.ownerOf(1)).to.equal(owner.address)
-            await expect(hardhatToken.burnToken(1)).to.be.revertedWith(
-                'VM Exception while processing transaction: revert Burn`s fee not allowed'
-            )
-        })
-
-        it('Should throw error if not owner', async function () {
-            await hardhatToken.createToken('John', 1)
-            expect(await hardhatToken.ownerOf(1)).to.equal(owner.address)
-            await hardhatToken.transferToken(addr2.address, 1)
-
-            await expect(hardhatToken.burnToken(1, { value })).to.be.revertedWith(
-                'VM Exception while processing transaction: revert Burn`s fee not allowed'
-            )
-        })
-    })
-
-    describe('Withdraw', function () {
-        it('Should withdraw all balance to contract owner ', async function () {
-            expect(await hardhatToken.contractBalance()).to.equal(1)
-        })
-
-        it('Should throw error if not owner call method', async function () {
-            expect(await hardhatToken.contractBalance()).to.equal(1)
+                // fails
+                await expect(hardhatToken.connect(addr1).burnToken(1, { value: burnFee })).to.be.revertedWith(
+                    'VM Exception while processing transaction: revert Ownable: caller is not the owner'
+                )
+            })
         })
     })
 })
