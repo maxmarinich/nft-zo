@@ -6,10 +6,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 /**
- * @title ZoFactory
+ * @title Contract
  */
 
-contract ZoFactory is Ownable, ERC721URIStorage {
+contract Contract is Ownable, ERC721URIStorage {
     using Strings for uint256;
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -25,25 +25,24 @@ contract ZoFactory is Ownable, ERC721URIStorage {
         uint256 burningFee;
     }
 
-    Token[] private tokens;
-    mapping (uint256 => Token) private _idToToken;
-    mapping (uint256 => uint256) private _tokenToBurnFee;
-    mapping (uint256 => address) private _burnedToOwners;
+    mapping (uint256 => Token) private _tokenIdToToken;
+    mapping (uint256 => uint256) private _tokenIdToBurnFee;
+    mapping (uint256 => address) private _burnableTokenIdToOwner;
 
-    constructor(string memory _tokenURI, string memory _contractURI, uint256 _supplyLimit) ERC721("NFTZombieFinal", "ZOMB") {
+    constructor(string memory _tokenURI, string memory _contractURI, uint256 _supplyLimit) ERC721("NFT_Zo", "ZOUQ") {
         _baseTokenURI = _tokenURI;
         _baseContractURI = _contractURI;
         _totalSupplyLimit = _supplyLimit;
     }
 
     modifier burnable(uint256 _tokenId) {
-        require(msg.value >= _tokenToBurnFee[_tokenId], "ZoFactory: Burn`s fee not allowed");
+        require(msg.value >= _tokenIdToBurnFee[_tokenId], "Burn`s fee not allowed");
         _;
 
     }
 
     modifier nonburned(uint256 _tokenId) {
-        require(_burnedToOwners[_tokenId] != address(0), "ZoFactory: Query for burned token");
+        require(_burnableTokenIdToOwner[_tokenId] == address(0), "Query for burned token");
         _;
 
     }
@@ -65,16 +64,15 @@ contract ZoFactory is Ownable, ERC721URIStorage {
     }
 
     function createToken(string memory name, uint256 burningFee) public onlyOwner returns (Token memory) {
-        require(totalSupply() < _totalSupplyLimit, "ZoFactory: Total supply limit reached");
+        require(totalSupply() < _totalSupplyLimit, "Total supply limit reached");
 
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
         Token memory newToken = Token(newItemId, name, burningFee);
 
-        tokens.push(newToken);
-        _idToToken[newItemId] = newToken;
-        _tokenToBurnFee[newItemId] = burningFee * _baseBurningFee;
+        _tokenIdToToken[newItemId] = newToken;
+        _tokenIdToBurnFee[newItemId] = burningFee * _baseBurningFee;
 
         _mint(owner(), newItemId);
         _setTokenURI(newItemId, newItemId.toString());
@@ -91,8 +89,8 @@ contract ZoFactory is Ownable, ERC721URIStorage {
     }
 
     function tokenData(uint256 _tokenId) public nonburned(_tokenId) view returns (Token memory) {
-        require(_exists(_tokenId), "ZoFactory: Query for nonexistent token");
-        Token memory data = _idToToken[_tokenId];
+        require(_exists(_tokenId), "Query for nonexistent token");
+        Token memory data = _tokenIdToToken[_tokenId];
 
         return data;
     }
@@ -101,7 +99,7 @@ contract ZoFactory is Ownable, ERC721URIStorage {
     }
 
     function totalSupply() public view returns (uint256) {
-        return tokens.length;
+        return _tokenIds.current();
     }
 
     function totalSupplyLimit() public view returns (uint256) {
@@ -115,7 +113,7 @@ contract ZoFactory is Ownable, ERC721URIStorage {
 
     function burnToken(uint256 _tokenId) public payable burnable(_tokenId) returns (uint256) {
         _burn(_tokenId);
-        _burnedToOwners[_tokenId] = msg.sender;
+        _burnableTokenIdToOwner[_tokenId] = _msgSender();
         return _tokenId;
     }
 

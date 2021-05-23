@@ -10,7 +10,7 @@ exec(command, (err, stdout, stderr) => {
     if (err) {
         throw new Error(err)
     } else {
-        console.log(`stdout: ${stdout}`)
-        console.error(`stderr: ${stderr}`)
+        stdout && console.log(`stdout: ${stdout}`)
+        stderr && console.error(`stderr: ${stderr}`)
     }
 })

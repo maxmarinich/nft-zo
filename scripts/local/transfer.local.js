@@ -2,7 +2,7 @@ const { localContractAddress } = require('../../secrets.json');
 
 async function main() {
   const newOwner = '0xA696906271b10DA4D6ABf13828Ee787d597b2566';
-  const contractFactory = await ethers.getContractFactory('ZoFactory');
+  const contractFactory = await ethers.getContractFactory('Contract');
   const contract = await contractFactory.attach(localContractAddress);
 
   const tokenId = (await contract.totalSupply()).toNumber();
