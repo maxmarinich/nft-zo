@@ -27,7 +27,7 @@ contract Contract is Ownable, ERC721URIStorage {
 
     mapping (uint256 => Token) private _tokenIdToToken;
     mapping (uint256 => uint256) private _tokenIdToBurnFee;
-    mapping (uint256 => address) private _burnableTokenIdToOwner;
+    mapping (uint256 => address) private _burnedTokenIdToOwner;
 
     constructor(string memory _tokenURI, string memory _contractURI, uint256 _supplyLimit) ERC721("NFT_Zo", "ZOUQ") {
         _baseTokenURI = _tokenURI;
@@ -36,13 +36,14 @@ contract Contract is Ownable, ERC721URIStorage {
     }
 
     modifier burnable(uint256 _tokenId) {
+        require(ownerOf(_tokenId) == _msgSender(), "Burn of token that is not own");
         require(msg.value >= _tokenIdToBurnFee[_tokenId], "Burn`s fee not allowed");
         _;
 
     }
 
     modifier nonburned(uint256 _tokenId) {
-        require(_burnableTokenIdToOwner[_tokenId] == address(0), "Query for burned token");
+        require(_burnedTokenIdToOwner[_tokenId] == address(0), "Query for burned token");
         _;
 
     }
@@ -113,7 +114,7 @@ contract Contract is Ownable, ERC721URIStorage {
 
     function burnToken(uint256 _tokenId) public payable burnable(_tokenId) returns (uint256) {
         _burn(_tokenId);
-        _burnableTokenIdToOwner[_tokenId] = _msgSender();
+        _burnedTokenIdToOwner[_tokenId] = _msgSender();
         return _tokenId;
     }
 
