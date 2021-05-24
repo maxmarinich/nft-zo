@@ -20,13 +20,6 @@ const config = {
         new HtmlWebpackPlugin({
             template: './client/index.html',
         }),
-        // new CopyPlugin({
-        //     patterns: [
-        //         { from: 'static', to: 'dist/static' },
-        //     ],
-        // }),
-        // Add your plugins here
-        // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     ],
     module: {
         rules: [
