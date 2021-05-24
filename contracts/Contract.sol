@@ -29,7 +29,7 @@ contract Contract is Ownable, ERC721URIStorage {
     mapping (uint256 => uint256) private _tokenIdToBurnFee;
     mapping (uint256 => address) private _burnedTokenIdToOwner;
 
-    constructor(string memory _tokenURI, string memory _contractURI, uint256 _supplyLimit) ERC721("NFT_Zo", "ZOUQ") {
+    constructor(string memory _tokenURI, string memory _contractURI, uint256 _supplyLimit) ERC721("NFTUnify", "UNIF") {
         _baseTokenURI = _tokenURI;
         _baseContractURI = _contractURI;
         _totalSupplyLimit = _supplyLimit;
