@@ -7,6 +7,12 @@ npm ci
 ### setup
 - rename `secrets.dev.json` to `secrets.json` and fill required fields
 
+### Tests:
+
+```
+npm run test
+```
+
 ### Development / Deploy testnet:
 
 ```
