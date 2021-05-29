@@ -29,12 +29,12 @@
     {
       "display_type": "date",
       "trait_type": "born",
-      "value": -62293400000000
+      "value": -62160000000000
     },
     {
       "display_type": "date",
       "trait_type": "died",
-      "value": -61200000000000
+      "value": -61090000000000
     }
   ]
 }
